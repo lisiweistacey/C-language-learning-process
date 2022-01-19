@@ -1,0 +1,176 @@
+//if语句练习
+//一
+#include <stdio.h>
+int main()
+{
+	int age = 10;
+	if (age < 18)
+	    printf("未成年\n");
+	else if (age >= 18 && age < 28)
+	    printf("青年\n");
+	else if (age >= 28 && age < 50)
+		printf("壮年\n");
+	else
+		printf("老年\n");
+	
+	return 0;
+}
+
+//二
+#include <stdio.h>
+int main()
+{
+	int age = 10;
+	if (age < 18)
+	{
+		printf("未成年\n");
+		printf("不能早恋\n");
+	}
+	else
+	{
+		if (age >= 18 && age < 28)
+			printf("青年\n");
+		else if (age >= 28 && age < 50)
+			printf("壮年\n");
+		else
+			printf("老年\n");
+	}
+
+	return 0;
+}
+
+//错误案例
+#include <stdio.h>
+int main()
+{
+	int a = 0;
+	int b = 2;
+	if (a == 1)
+		if (b == 2)
+			printf("hehe\n");
+	else
+		printf("haha\n");
+	return 0;
+}
+//else 总与最近的未匹配的else匹配，这里是与第二个if匹配
+//无法输出hehe或haha
+
+//正确写法
+#include <stdio.h>
+int main()
+{
+	int a = 0;
+	int b = 2;
+	if (a == 1)
+	{
+		if (b == 2)
+			printf("hehe\n");
+	}
+		else 
+			printf("haha\n");
+	return 0;
+}
+
+//判断奇偶性
+#include <stdio.h>
+#define _CRT_SECURE_NO_WARNINGS
+int main()
+{
+	int a = 0;
+	scanf("%d", &a);
+	if (a % 2 != 0)
+		printf("奇数\n");
+	else
+		printf("偶数\n");
+	return 0;
+}
+
+//输出1到100之间的奇数的方法
+//第一种
+#include <stdio.h>
+int main()
+{
+	int a = 1;
+	while (a <= 100)
+	{
+		if (a % 2 != 0)
+			printf("%d\n", a);
+		a++;
+	}
+	return 0;
+}
+
+//第二种
+#include <stdio.h>
+int main()
+{
+	int a = 1;
+	while (a <= 100)
+	{
+		printf("%d\n", a);
+		a += 2;
+	}
+	return 0;
+}
+
+//switch语句
+//switch (整型表达式)
+//{
+//	语句项；
+//}
+
+#include <stdio.h>
+#define _CRT_SECURE_NO_WARNINGS
+int main()
+{
+	int day = 0;
+	scanf("%d", &day);
+	switch (day)
+	{
+	case 1:
+		printf("Monday\n");
+		break;
+	case 2:
+		printf("Tuesday\n");
+		break;
+	case 3:
+		printf("Wednesday\n");
+		break;
+	case 4:
+		printf("Thursday\n");
+		break;
+	case 5:
+		printf("Friday\n");
+		break;
+	case 6:
+		printf("Saturday\n");
+		break;
+	case 7:
+		printf("Sunday\n");
+		break;
+	}
+	return 0;
+}
+
+#include <stdio.h>
+#define _CRT_SECURE_NO_WARNINGS
+int main()
+{
+	int day = 0;
+	scanf("%d", &day);
+	switch (day)
+	{
+	case 1: 
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+		printf("工作日\n");
+		break;
+	case 6:
+	case 7:
+		printf("休息日\n");
+		break;
+	}
+	return 0;
+}
