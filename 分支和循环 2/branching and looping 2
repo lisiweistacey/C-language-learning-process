@@ -1,0 +1,104 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int main()
+{
+	int i = 1;
+	while (i <= 10)
+	{
+		if (i == 5)
+			break;
+		printf("%d\n", i);//1234
+		i++;
+	}
+	return 0;
+}
+//break在while循环中的作用是：遇到break，就停止后面的所有循环，直接终止。
+//while中的break是用于永久终止循环的。
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int main()
+{
+	int i = 1;
+	while (i <= 10)
+	{
+		if (i == 5)
+			continue;
+		printf("%d\n", i);//1234
+		i++;
+	}
+	return 0;
+}
+
+//将i++提前
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int main()
+{
+	int i = 1;
+	while (i <= 10)
+	{
+		i++;
+		if (i == 5)
+			continue;
+		printf("%d\n", i);//12345678910
+	}
+	return 0;
+}
+//continue是用于终止本次循环的，本次循环中continue后面的代码不会再执行
+//直接跳转到while语句的判断部分，进行下一次循环的入口判断
+
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int main()
+{
+	int ch = 0;
+	//EOF- end of file文件结束标志
+	while ((ch = getchar()) != EOF)//输入函数
+	{
+		putchar(ch);//输出函数
+	}
+	return 0;
+}
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int main()
+{
+	int ret = 0;
+	int ch = 0;
+	char password[20] = { 0 };
+	printf("请输入密码:\n");
+	scanf("%s", password);//输入密码，并存放在password数组中
+	//缓冲区还剩余一个'\n'
+	while(ch = getchar() !='\n');//将剩下的字符直到'\n'都读走
+	{
+		;
+	}
+	printf("请确认(Y/N)\n");
+	ret = getchar();//输入函数
+	if (ret == 'Y')
+	{
+		printf("确认成功\n");
+	}
+	else
+	{
+		printf("放弃确认\n");
+	}
+	return 0;
+}
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int main()
+{
+	int ch = 0;
+	while ((ch = getchar()) != 0)
+	{
+		if (ch < '0' || ch>'9')
+			continue; //区间里的会执行，不在区间里的不执行
+		putchar(ch);
+	}
+	return 0;
+}
