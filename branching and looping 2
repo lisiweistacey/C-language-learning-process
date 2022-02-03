@@ -41,7 +41,7 @@ int main()
 		i++;
 		if (i == 5)
 			continue;
-		printf("%d\n", i);//12345678910
+		printf("%d\n", i);//234678910
 	}
 	return 0;
 }
@@ -97,7 +97,7 @@ int main()
 	while ((ch = getchar()) != 0)
 	{
 		if (ch < '0' || ch>'9')
-			continue; //区间里的会执行，不在区间里的不执行
+			continue; //区间里的不会执行，不在区间里的执行
 		putchar(ch);
 	}
 	return 0;
