@@ -1,0 +1,193 @@
+//strcpy
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+	char arr1[] = "12345";
+	char arr2[] = "############";
+	             //12345\0#####
+	strcpy(arr2, arr1);
+	printf("%s\n", arr2);
+	return 0;
+}
+
+//memset
+#include <stdio.h>
+#include <vcruntime_string.h>
+int main()
+{
+	char arr[] = "hello world";
+	memset(arr, '*', 5);
+	printf("%s\n", arr);//***** world
+	return 0;
+}
+
+//自定义函数
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int get_max(int x, int y)
+{
+	if (x > y)
+		return x;
+	else
+		return y;
+}
+int main()
+{
+	int a = 0;
+	int b = 0;
+	scanf("%d%d", &a, &b);
+	int max = get_max(a, b);
+	printf("max = %d\n", max);
+	return 0;
+}
+//交换两个变量的值
+#include <stdio.h>
+//当实参传给形参时，形参其实是实参的一份临时拷贝，对形参的改变是不会改变实参的
+//void Swap1(int x, int y)//错误案例，不能完成任务
+//{
+//	int tmp = 0;
+//	tmp = x;
+//	x = y;
+//	y = tmp;
+//}
+void Swap2(int* pa, int* pb)//接受a,b的地址（远程操控）
+{
+	int tmp = 0;
+	tmp = *pa;
+	*pa = *pb;
+	*pb = tmp;
+}
+int main()
+{
+	int a = 10;
+	int b = 20;
+	printf("a = %d b = %d\n", a, b);
+	Swap1(a, b);
+	printf("a = %d b = %d\n", a, b);//错误，只交换了x,y,没有交换a,b(地址不同)
+	Swap2(&a, &b);
+	printf("a = %d b = %d\n", a, b);
+	return 0;
+}
+
+//写一个函数判断一个数是不是素数
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <math.h>
+int is_prime(int x)
+{
+	int y = 0;
+	for (y = 2; y <= sqrt(x); y++)
+	{
+		if ((x % y) == 0)
+		
+			return 0;
+	}
+	return 1;
+}
+int main()
+{
+	int i = 0;
+	scanf("%d", &i);
+	if (is_prime(i) == 1)
+		printf("是素数\n");
+	else
+		printf("不是素数\n");
+	return 0;
+}
+
+//写一个函数判断一年是不是闰年
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int is_leap_year(int x)
+{
+	if (((x % 4 == 0) && (x % 100 != 0)) || (x % 400 == 0))
+		return 1;
+	else
+		return 0;
+}
+int main()
+{
+	int year = 0;
+	scanf("%d", &year);
+	if (is_leap_year(year) == 1)
+		printf("是闰年\n");
+	else
+		printf("不是闰年\n");
+	return 0;
+}
+
+//写一个函数，实现一个整型有序数组的二分查找
+//如果找到了返回，找不到的返回-1
+#include <stdio.h>
+int Binary_search(int arr[], int k, int sz)//本质上arr是一个指针（接收地址）(形参与实参的名字相同没问题)
+{
+    int left = 0;
+	int right = sz - 1; //错误8/4(指针)
+	while (left <= right)
+	{
+		int mid = (left + right) / 2;//中间元素下标  
+		if (arr[mid] < k)
+		{
+			left = mid + 1;
+		}
+		else if (arr[mid] > k)
+		{
+			right = mid - 1;
+		}
+		else
+		{
+			return mid;
+		}
+	}
+	return -1;
+}
+int main()
+{
+	int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+	int k = 7;
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	int ret = Binary_search(arr, k, sz);//传递过去的是数组arr首元素的地址
+	if (ret == -1)
+	{
+		printf("找不到\n");
+	}
+	else
+	{
+		printf("找到了，下标是%d\n", ret);
+	}
+	return 0;
+}
+
+//每调用一次函数，num加一
+#include <stdio.h>
+void Add(int* p)
+{
+	(*p)++;
+}
+int main()
+{
+	int num = 0;
+	Add(&num);
+	printf("num = %d\n", num);//1
+	Add(&num);
+	printf("num = %d\n", num);//2
+	Add(&num);
+	printf("num = %d\n", num);//3
+	return 0;
+}
+
+//链式访问
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+	int len = 0;
+	//1
+	len = strlen("abc");
+	//printf("%d\n", len);
+	//2
+	printf("%d\n", strlen("abc"));
+	return 0;
+}
