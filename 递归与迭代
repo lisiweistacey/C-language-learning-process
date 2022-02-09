@@ -1,0 +1,148 @@
+//函数递归（程序调用自身的编程技巧）(套娃)
+//递归常见的错误：容易栈溢出Stack overflow
+//eg:
+#include <stdio.h>
+int main()
+{
+	printf("hehe\n");
+	main();
+	return 0;
+} // Stack overflow栈溢出
+
+//(递归)接收一个整型值(无符号)，按照顺序打印eg:1234 - 1 2 3 4
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+void print(int n)//1234
+{
+	if (n > 9)
+	{
+		print(n / 10);//123
+	}
+	printf("%d ", n % 10);//从1到4逐一打印
+}
+int main()
+{
+	unsigned int num = 0;
+	scanf("%d", &num);//1234
+	print(num);
+	//print(1234)
+	//print(123) 4
+	//print(12) 3 4
+	//print(1) 2 3 4
+	return 0;
+}
+
+//求字符串的长度（创建临时变量）
+#include <stdio.h>
+int string_lenth(char* str)
+{
+	int count = 0;
+	while (*str != '\0')
+	{
+		str++;
+		count++;
+	}
+	return count;
+}
+int main()
+{
+	char arr[] = "abc";
+	int len = string_lenth(arr);
+	printf("len = %d\n", len);
+	return 0;
+}
+//不创建临时变量
+#include <stdio.h>
+int string_lenth(char* str)
+{
+	if (*str != '\0')
+	{
+		return 1 + string_lenth(str + 1);
+	}
+	else
+		return 0;
+}
+int main()
+{
+	char arr[] = "abc";
+	int len = string_lenth(arr);
+	printf("len = %d\n", len);
+	return 0;
+}
+
+//迭代
+//求n的阶乘
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int Fac1(int n)//循环的方式
+{
+	int i = 0;
+	int ret = 1;
+	for (i = 1; i <= n; i++)
+	{
+		ret *= i;
+	}
+	return ret;
+
+}
+int Fac2(int n)//阶乘的方式
+{
+	if (n <= 1)
+	{
+		return 1;
+	}
+	else
+	{
+		return n * Fac2(n-1);
+	}
+}
+int main()
+{
+	int n = 0;
+	scanf("%d", &n);
+    int sum1 = Fac1(n);
+	int sum2 = Fac2(n);
+	printf("sum1 = %d\n", sum1);
+	printf("sum2 = %d\n", sum2);
+	return 0;
+}
+
+//求第n个斐波那契数列（前两个数之和等于第三个数）
+//1 1 2 3 5 8 13...
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int f(int n)//递归
+{
+	if (n <= 2)
+		return 1;
+	else
+		return f(n - 1) + f(n - 2);
+}
+int count = 0;
+int fit(int n)//循环
+{
+	int a = 1;
+	int b = 1;
+	int ret = 1;
+	while(n>2)
+	{
+		ret = a + b;
+		a = b;
+		b = ret;
+		n--;
+		count++;
+	}
+	return ret;
+}
+int main()
+{
+	int n = 0;
+	scanf("%d", &n);
+	//TDD - 测试驱动开发
+	int sum = f(n);
+	int ret = fit(n);
+	printf("%d\n", sum);
+	printf("%d\n", ret);
+	printf("count = %d\n", count);
+	return 0;
+}
