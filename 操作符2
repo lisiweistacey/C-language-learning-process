@@ -1,0 +1,122 @@
+#include <stdio.h>
+int main()
+{
+	int i = 0, a = 0, b = 2, c = 3, d = 4;
+	i = a++ && ++b && d++;//a++先运算再++，a为0，所以i为0,a++&&后面不运行了(左边如果为假，&&右边都不计算了),a+1;b,d不变
+	printf("a = %d\nb = %d\nc = %d\nd = %d\n", a, b, c, d);//1234
+	return 0;
+}
+
+#include <stdio.h>
+int main()
+{
+	int i = 0, a = 1, b = 2, c = 3, d = 4;
+	i = a++ && ++b && d++;
+	printf("a = %d\nb = %d\nc = %d\nd = %d\n", a, b, c, d);//2335
+	return 0;
+}
+
+#include <stdio.h>
+int main()
+{
+	int i = 0, a = 1, b = 2, c = 3, d = 4;
+	i = a++ || ++b || d++;//||前面已经为真了，后面不用算了
+	printf("a = %d\nb = %d\nc = %d\nd = %d\n", a, b, c, d);//2234
+	return 0;
+}
+
+int main()
+{
+	int a = 10;
+	int b = 20;
+	int max = 0;
+	max = (a > b ? a : b);
+	return 0;
+}
+
+//逗号表达式（从左向右依次执行，结果是最后一个表达式的结果）
+int count_val(int a)
+{
+
+}
+int get_val()
+{
+
+}
+int main()
+{
+	int a = 0;
+	while (a = get_val(), count_val(a), a > 0)
+	{
+
+	}
+}
+
+//创建的一个结构体类型-struct Stu
+#include <stdio.h>
+struct Stu
+{
+	//成员变量
+	char name[10];
+	int age;
+	char id[20];
+};
+int main()
+{
+	//使用struct Stu这个类型创建了一个(结构体变量)学生对象S1并初始化
+	struct Stu S1 = { "Stacey", 18, "2020004080" };
+	struct Stu* ps = &S1;
+	printf("%s\n", ps->name);
+	printf("%d\n", ps->age);
+	printf("%s\n", ps->id);
+	/*printf("%s\n", (*ps).name);
+	printf("%d\n", (*ps).age);
+	printf("%s\n", (*ps).id);*/
+
+	/*printf("%s\n", S1.name);
+	printf("%d\n", S1.age);
+	printf("%s\n", S1.id);*/
+	return 0;
+}
+
+#include <stdio.h>
+int main()
+{
+	char a = 3;
+	//00000000000000000000000000000011
+	//截断
+	//00000011
+	char b = 127;
+	//00000000000000000000000001111111
+	//截断
+	//01111111
+	//a和b相加
+	//整型提升(补0)
+	//00000000000000000000000000000011
+	//00000000000000000000000001111111
+	//00000000000000000000000010000010
+	//c -- 10000010
+	char c = a + b;
+	//打印整型--整型提升
+	//11111111111111111111111110000010 - 补码
+	//11111111111111111111111110000001 - 反码(-1)
+	//10000000000000000000000001111110 - 原码
+	//-126
+	printf("%d\n", c);//-126
+	return 0;
+}
+
+#include <stdio.h>
+int main()
+{
+	char c = 1;
+	//c只要参与(算术)运算，就会发生整型提升
+	printf("%u\n", sizeof(c));//1
+	printf("%u\n", sizeof(+c));//4
+	printf("%u\n", sizeof(!c));//1
+	return 0;
+}
+
+//问题表达式（错误示范）
+//a*b + c*d + e*f （不能确定这个表达式的唯一路径）
+//c+ --c
