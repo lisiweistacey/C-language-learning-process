@@ -1,0 +1,99 @@
+//把数组中的0全部改为1
+#include <stdio.h>
+int main()
+{
+	int arr[10] = { 0 };
+	int* pa = arr;//取首元素的地址
+	int i = 0;
+	for (i = 0; i < 10; i++)
+	{
+		*(pa + i) = 1;
+	}
+	return 0;
+}
+
+//野指针（指针指向的位置是不可知的，随机，不正确，没有明确限制的）
+//1
+int main()
+{
+	//int a;//局部变量未初始化，默认为随机值
+	int* p;//局部的指针变量就被初始化随机值
+	*p = 20;
+	return 0;
+}
+
+//2
+int main()
+{
+	int arr[10] = { 0 };
+	int* p = arr;
+	int i = 0;
+	for (i = 0; i < 10; i++)
+	{
+		p++;//当指针指向的范围超出数组arr的范围时， p就是野指针
+	}
+	return 0;
+}
+
+//3
+int* test()
+{
+	int a = 10;
+	return &a;
+}
+int main()
+{
+	int *p = test();
+	*p = 20;//test()函数一结束，空间就已经还给系统了（指针指向了一块已经释放的内存块）
+	return 0;
+}
+//若指针指向的空间已经被释放 (或者不用了)，若希望指针合法化，可给空指针NULL
+//int *p = NULL;
+#include <stdio.h>
+int main()
+{
+	int* p = NULL;
+	int a = 10;
+	p = &a;
+	if (p != NULL)
+	{
+		*p = 20;
+	}
+	printf("%d\n", a);//20
+	return 0;
+}
+
+//指针的运算
+#include <stdio.h>
+int main()
+{
+	int i = 0;
+	int arr[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	int* p = arr;
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	/*for (i = 0; i < sz; i++)
+	{
+		printf("%d ", *p);//1 2 3 4 5 6 7 8 9 10
+		p++;
+	}*/
+	for (i = 0; i < 5; i++)
+	{
+		printf("%d ", *p);//1 3 5 7 9
+		p+=2;
+	}
+	return 0;
+}
+#include <stdio.h>
+int main()
+{
+	int i = 0;
+	int arr[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	int* p = &arr[9];
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	for (i = 0; i < 5; i++)
+	{
+		printf("%d ", *p);//10 8 6 4 2
+		p -= 2;
+	}
+	return 0;
+}
