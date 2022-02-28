@@ -107,3 +107,23 @@ int main()
 	printf("%d\n", &arr[0] - &arr[9]);//-9
 	return 0;
 }
+
+//求字符串长度
+#include <stdio.h>
+int my_strlen(char* p)
+{
+	char* start = p;
+	char* end = p;
+	while (*end != '\0')
+	{
+		end++;
+	}
+	return end - start;
+}
+int main()
+{
+	char arr[10] = "Stacey";
+	int Str = my_strlen(arr);
+	printf("%d\n", Str);
+	return 0;
+}
