@@ -1,0 +1,75 @@
+//struct 结构体关键字
+//Stu 结构体标签
+//struct Stu 结构体类型
+struct Stu //定义一个结构体类型
+{
+	//成员变量
+	char name[20];
+	short age;
+	char tele[12];
+	char sex[5];
+}s1, s2, s3;//s1,s2,s3是三个全局的结构体变量
+int main()
+{
+	struct Stu s4 = { "张三", 20, "12345678", "男"}; //创建局部的结构体变量
+	return 0;
+}
+
+typedef struct Stu
+{
+	char name[20];
+	short age;
+	char tele[12];
+	char sex[5];
+}Stu;//Stu是类型
+int main()
+{
+	Stu s1 = { "张三", 20, "12345678", "男"};//局部变量
+	return 0;
+}
+
+#include <stdio.h>
+struct S
+{
+	int a;
+	char c;
+	char arr[10];
+	double d;
+};
+struct T
+{
+	char ch[10];
+	struct S s;
+	char* pc;
+};
+int main()
+{
+	char arr[] = "hello world\n";
+	struct T t = { "hehe", {100, 'w', "Li", 3.14}, arr };
+	printf("%s\n", t.ch);//hehe
+	printf("%s\n", t.s.arr);//Li
+	printf("%lf\n", t.s.d);//3.14
+	printf("%s\n", t.pc);//hello world
+}
+
+#include <stdio.h>
+typedef struct Stu
+{
+	char name[20];
+	short age;
+	char tele[12];
+	char sex[5];
+}Stu;//Stu是类型
+void Print(Stu* ps)
+{
+	printf("name: %s\n", ps->name);
+	printf("age: %d\n", ps->age);
+	printf("tele: %s\n", ps->tele);
+	printf("sex: %s\n", ps->sex);
+}
+int main()
+{
+	Stu s = { "Stacey", 18, "12345", "女"};
+	Print(&s);//传结构体的地址过去
+	return 0;
+}
