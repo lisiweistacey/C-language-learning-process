@@ -102,3 +102,41 @@ bool del_st(struct Sqlist* sq, int s, int t) {
 	}
 	sq->length = sq->length - k;
 }
+
+//06
+//从有序顺序表中删除所有其值重复的元素,使表中所有元素的值均不同。
+bool del_same(struct Sqlist* sq) {
+	if (sq->length == 0)
+		return false;
+	int i, j; //i为存储第一个不相同元素，j为工作指针
+	for (i = 0, j = 1; j < sq->length; j++) {
+		if (sq->data[i] != sq->data[j]) { //查找下一个与上一个元素不同的元素
+			sq->data[++i] = sq->data[j]; 
+		}
+	}
+	sq->length = i + 1;
+	return true;
+}
+
+//07
+//将两个有序顺序表合并为一个新的有序顺序表，并由函数返回结果顺序表。
+bool merge_list(struct Sqlist* sq1, struct Sqlist* sq2, struct Sqlist* sq3) {
+	//将有序顺序表1和2合并成一个新的有序顺序表3
+	if (sq1->length + sq2->length > sizeof(sq3)) //大于顺序表的最大长度
+		return false; //装不下
+	int i = 0, j = 0, k = 0;
+	//
+	while (i < sq1->length && j < sq2->length) {
+		if (sq1->data[i] <= sq2->data[j]) //两两比较，小者存入结果
+			sq3->data[k++] = sq1->data[i++];
+		else
+			sq3->data[k++] = sq2->data[j++];
+	}
+	//还剩下一个没有比较完的有序顺序表（长的那个）
+	while (i < sq1->length)
+		sq3->data[k++] = sq1->data[i++];
+	while (j < sq2->length)
+		sq3->data[k++] = sq2->data[j++];
+	sq3->length = k;
+	return true;
+}
