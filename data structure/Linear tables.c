@@ -140,3 +140,74 @@ bool merge_list(struct Sqlist* sq1, struct Sqlist* sq2, struct Sqlist* sq3) {
 	sq3->length = k;
 	return true;
 }
+
+//08
+//已知在一维数组A[m+n]中依次存放两个线性表(a1,a2,a3,...,am)和(b1,b2,b3,…,bn)。
+//编写一个函数,将数组中两个顺序表的位置互换,即将(b1,b2,b3,...,bn)放在(a1,a2,a3,..., am)的前面。
+//规律：b的下标都减m，a的下标都加n
+
+#include <malloc.h>
+bool change_ab(int A[], int m, int n) {
+	if (n <= m || n >= sizeof(A)) {
+		return false;
+	}
+	int* ans = (int*)malloc((m + n) * sizeof(int));
+	for (int i = 0; i < m; i++) {
+		ans[i + n] = A[i];
+	}
+	for (int i = 0; i < n; i++) {
+		ans[i] = A[i + m];
+	}
+	for (int i = 0; i < m + n; i++) {
+		A[i] = ans[i]; //把答案数组再赋回给A数组
+	}
+	free(ans);
+	return true;
+} //时间复杂度O(n+m), 空间复杂度O(m+n)
+
+void reversal_a(int A[], int length) {
+	
+	int temp;
+	for (int i = 0; i < length / 2; i++) {
+		//反转
+		temp = A[i];
+		A[i] = A[length - i - 1];
+		A[length - i - 1] = temp;
+	}
+}
+
+//09
+//线性表(a1,a2,a3,...,an)中的元素递增有序且按顺序存储于计算机内。
+//要求设计一个算法，完成用最少时间在表中查找数值为x的元素
+//若找到，则将其与后继元素位置相交换，若找不到，则将其插入表中并使表中元素仍递增有序。
+bool search_x(struct Sqlist* sq, int x) {
+	if (sq->length == 0)
+		return false;
+	//左、右区间，中间值
+	int low = 0, high = sq->length - 1, mid;
+	while (low <= high) {
+		mid = (high - low) / 2; //取中间值
+		if (sq->data[mid] == x)
+			break;
+		if (sq->data[mid] < x)
+			low = mid + 1;
+		else
+			high = mid - 1;
+	}
+	int temp;
+	//若最后一个元素与x相等，则不存在与其后继交换的操作
+	//能找到则操作
+	if (sq->data[mid] == x && mid != sq->length) {
+		temp = sq->data[mid];
+		sq->data[mid] = sq->data[mid + 1];
+		sq->data[mid + 1] = temp;
+	}
+	//若查找失败
+	int i;
+	if (sq->data[mid] != x) {
+		for (i = sq->length - 1; i > high; i--)
+			sq->data[i + 1] = sq->data[i]; //后移
+		sq->data[i + 1] = x; //插入
+	}
+	return true;
+}
