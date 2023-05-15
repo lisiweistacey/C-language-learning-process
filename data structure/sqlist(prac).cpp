@@ -28,6 +28,33 @@ bool ListInsert(SqList &L, int i, Elemtype element){
     return true;
 }
 
+//删除顺序表中的元素的函数 （要改变的必须加&）
+bool ListDelect(SqList &L, int i, Elemtype &e){
+    if(i<1 || i>L.length){
+        return false;
+    }
+    if(L.length == 0){
+        return false;
+    }
+    //首先保存要删除的元素的值
+    e = L.data[i-1];
+    for(int j = i; j < L.length; j++){
+        L.data[j-1] = L.data[j];
+    }
+    L.length--;
+    return true;
+}
+
+//按值查找，返回位置
+int LocateElemtype(SqList L, Elemtype element){
+    for(int i = 1; i < L.length; i++){
+        if(element == L.data[1]){
+            return i+1; //返回位置不是位序
+        }
+    }
+    return 0; //循环结束没找到，返回0，函数调用结束
+}
+
 //打印顺序表
 void PrintList(SqList L){
     for(int i = 0; i < L.length; i++){
@@ -44,6 +71,7 @@ int main() {
     L.data[1] = 2;
     L.data[2] = 3;
     L.length = 3; //设置长度
+    //插入
     ret = ListInsert(L, 2, 60);
     if(ret){
         printf("insert sqlist success\n");
@@ -52,4 +80,28 @@ int main() {
     else{
         printf("insert sqlist failed\n");
     }
+    printf("--------------------------------\n");
+    //删除
+    Elemtype del; //删除的元素存入del中
+    ret = ListDelect(L, 3, del);
+     if(ret){
+        printf("delete sqlist success\n");
+        printf("del element = %d\n", del);
+        PrintList(L); //顺序表打印
+    }
+    else{
+        printf("delete sqlist failed\n");
+    }
+    printf("------------------------\n");
+    //查找
+    int pos; //存储返回元素的位置
+    pos = LocateElemtype(L, 60);
+    if(pos){
+        printf("element pos = %d\n", pos);
+    }
+    else{
+        printf("don't found this element\n");
+    }
+
+    return 0;
 }
