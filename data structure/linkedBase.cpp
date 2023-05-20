@@ -55,7 +55,7 @@ void print_list(LinkList L){
 }
 
 //按序号查找结点
-LNode* get_elem(LinkList L, int i){
+/* LNode* get_elem(LinkList L, int i){
     if(i<1)
         return NULL;
     int j = 1;
@@ -65,15 +65,52 @@ LNode* get_elem(LinkList L, int i){
         j++;
     }
     return p;
+} */
+
+LNode* get_elem(LinkList L, int i){
+    if(i<0)
+        return NULL;
+    int j = 0;
+    while(L && j<i){
+        L = L->next;
+        j++;
+    }
+    return L;
 }
 
 //按值查找结点
-LNode* LocationElem(LinkList L, ElemType e){
+LNode* LocationElem(LinkList L, ElemType e){ //不是&L，因为头结点已经确定不变了
     LNode *p = L->next;
     while(p != NULL && p->data != e){
         p = p->next;
     }
     return p;
+}
+
+
+//插入
+void insert_node(LinkList L, int i, ElemType InsertVal){
+    LNode *p, *s;
+    p = get_elem(L, i-1); //找到i结点的前驱
+    if(NULL != p){
+        s = (LinkList)malloc(sizeof(LNode));
+        s->data = InsertVal;
+        s->next = p->next;
+        p->next = s;
+    }
+}
+
+//删除(不能删头结点)
+bool DelectNode(LinkList L, int i){
+    LNode *p;
+    p = get_elem(L, i-1); //找到i结点的前驱
+    if(p->next == NULL){
+        return false;
+    }
+    LNode *q = p->next;
+    p->next = q->next;
+    free(q);
+    return true;
 }
 
 int main()
@@ -94,7 +131,7 @@ int main()
         printf("%d\n", search->data);
     }
     else{
-        printf("not found");
+        printf("not found\n");
     }
 
     search = LocationElem(L, 3);
@@ -102,7 +139,21 @@ int main()
         printf("Succeeded in searching by the value\n");
         printf("%d\n", search->data);
     }else{
-        printf("not found");
+        printf("not found\n");
     }
+
+    //插入
+    insert_node(L, 3, 0);
+    print_list(L);
+
+    //删除
+    bool r = DelectNode(L, 1);
+    if(r == true){
+        printf("Succeeded\n");
+    }
+    else{
+        printf("fail\n");
+    }
+    print_list(L);
     return 0;
 }
