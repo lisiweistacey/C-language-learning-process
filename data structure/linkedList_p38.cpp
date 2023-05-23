@@ -156,6 +156,134 @@ void DelectBetween(LinkList &L, int x, int y){
 	}
 }
 
+//8 
+//给定两个单链表，编写算法找出两个链表的公共结点    (不是值相同，是地址相同)
+//方法一：傻瓜方法，时间复杂度太大了
+LNode *FindCommonOne(LinkList L1, LinkList L2){
+	LNode *p = L1->next, *q = L2->next;
+	while(p != NULL){
+		while(q != NULL){
+			if(p == q){
+				return q;
+			}	
+			q = q->next;
+		}
+		p = p->next;
+	}
+	return NULL;
+}
+//方法二：
+//先算出两链表的长度差dist
+//再将长链表往后遍历dist个结点
+//两个链表同时向后遍历同样的长度，直到找到相同的结点
+int Length(LinkList L){
+	LNode *p = L->next;
+	int num = 0;
+	while(p!=NULL){
+		num++;
+		p = p->next;
+	}
+	return num;
+}
+LNode *FindCommonTwo(LinkList L1, LinkList L2){
+	int len1 = Length(L1), len2 = Length(L2);
+	LNode *longList, *shortList;
+	int dist; //差值
+	if(len1 > len2){
+		longList = L1->next, shortList = L2->next;
+		dist = len1 - len2;
+	}
+	else{
+		longList = L2->next, shortList = L1->next;
+		dist = len2 - len1;
+	}
+	//长链表往后遍历dist个结点
+	while(dist--){
+		longList = longList->next;
+	}
+	while(longList != NULL){
+		if(longList == shortList){
+			return longList;
+		}
+		else{
+			//同步遍历搜寻
+			longList = longList->next;
+			shortList = shortList->next;
+		}
+	}
+	return NULL;
+}
+
+//9
+//给定一个带表头结点的单链表，设 head 为头指针,结点结构为（data, next), 
+//data为整型元素,next为指针,试写出算法：按递增次序输出单链表中各结点的数据元素，并释放结点所占的存储空间（要求：不允许使用数组作为辅助空间）。
+//瞎写的
+void sort_free_1(LinkList &Head){
+	LNode *pre, *p = Head->next;
+	LNode *r = p->next;
+	p->next = NULL; //断链
+	p = r;
+	//重排
+	while(p != NULL){
+		r = p->next;
+        pre = Head;
+		while(pre->next != NULL && p->data > pre->next->data){
+			pre = pre->next;
+		}
+		p->next = pre->next;
+		pre->next = p;
+		p = r;
+	}
+	//打印
+	print(Head);
+	p = Head;
+	while(p != NULL){
+		free(p);
+	}
+}
+//答案上的
+void sort_free_2(LinkList &head){
+	//循环到只剩头结点
+	while(head->next != NULL){
+		LNode *pre = head, *p = head->next, *u; //u指向被删除结点
+		while(p->next != NULL){
+			if(p->next->data < pre->next->data)
+				pre = p;
+			p = p->next;
+		}
+		printf("%3d", pre->next->data); //打印最小元素值
+		u = pre->next;
+		pre->next = u->next; //不能丢了！！！
+		free(u);
+	}
+	free(head);
+}
+
+//10
+//将一个带头结点的单链表A分解为两个带头结点的单链表A和B，使得A表中含有原表中序号为奇数的元素，而B表中含有原表中序号为偶数的元素，且保持其相对顺序不变。
+LinkList DisCreat(LinkList &A){
+	int n = 0;
+	LinkList B = (LinkList)malloc(sizeof(LNode)); //创B链
+	B->next = NULL;
+	LNode *p = A->next, *ra, *rb;
+	A->next = NULL; //清空A链
+	while(p != NULL){
+		n++;
+		if(n%2 == 0){ //偶数
+			rb->next = p;
+			rb = p;
+		}
+		else{
+			ra->next = p;
+			ra = p;
+		}
+		p = p->next;
+	}
+	ra->next = NULL;
+	rb->next = NULL;
+	return B;
+}
+
 
 int main() {
 	int x, n; //x是要删除的结点，n是链表的长度
