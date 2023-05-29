@@ -284,6 +284,75 @@ LinkList DisCreat(LinkList &A){
 	return B;
 }
 
+//11
+LinkList SplitList(LinkList &A){
+	LinkList B = (LinkList)malloc(sizeof(LNode));
+	B->next = NULL; //初始化
+	LNode *p = A->next, *ra = A;
+	LNode *q;
+	while (p != NULL)
+	{
+		ra->next=p;
+		ra = p;
+		p = p->next;
+		if(p!=NULL){
+			q = p->next; //记录，防断链
+			//B链反向所以用头插
+			p->next = B->next;
+			B->next = p;
+			p = q;
+		}
+	}
+	ra->next = NULL; //A链结束
+	return B;
+}
+
+//12
+void del_same(LinkList &L){
+	LNode *p = L->next, *q;
+	if(p == NULL)
+		return;
+	while(p->next != NULL){
+		q = p->next;
+		if(q->data == p->data){
+			p->next = q->next;
+			free(q);
+		}
+		else{
+			p = p->next;
+		}
+	}
+}
+
+//13
+void MergeList(LinkList &La, LinkList &Lb){
+	LNode *r, *pa = La->next, *pb = Lb->next; //r用来记录，防断链
+	La->next = NULL; //清空A链表，用作结果链表
+	while(pa && pb){ //两链表均不为空时，循环
+		if(pa->data <= pb->data){
+			r = pa->next; //记录
+			pa->next = La->next; //头插
+			La->next = pa;
+			pa = r;
+		}
+		else{
+			r = pb->next;
+			pb->next = La->next;
+			La->next = pb;
+			pb = r;
+		}
+	} 
+	//一个链表已经扫描完了，另外一个链表还剩下元素
+	if(pa)
+		pb = pa;
+	while(pb){
+		r = pb->next;
+		pb->next = La->next;
+		La->next = pb;
+		pb = r;
+	}
+	free(Lb);
+}
 
 int main() {
 	int x, n; //x是要删除的结点，n是链表的长度
