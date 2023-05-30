@@ -285,6 +285,8 @@ LinkList DisCreat(LinkList &A){
 }
 
 //11
+//设 C =( ai , bi ,a2,b2,''…, am bn ｝为线性表，采用带头结点的单链表存放，
+//设计一个就地算法，将其拆分为两个线性表，使得 A ={ a ),a2,'…, an ), B =( bm ,…,b2,b1)。
 LinkList SplitList(LinkList &A){
 	LinkList B = (LinkList)malloc(sizeof(LNode));
 	B->next = NULL; //初始化
@@ -308,6 +310,8 @@ LinkList SplitList(LinkList &A){
 }
 
 //12
+//在一个递增有序的线性表中，有数值相同的元素存在。若存储方式为单链表，设计算法
+//去掉数值相同的元素，使表中不再有重复的元素，例如（7,10,10,21,30,42,42,42,51,70)将变为（7,10,21,30,42.51,70).
 void del_same(LinkList &L){
 	LNode *p = L->next, *q;
 	if(p == NULL)
@@ -325,6 +329,8 @@ void del_same(LinkList &L){
 }
 
 //13
+//假设有两个按元素值递增次序排列的线性表，均以单链表形式存储。请编写算法将这两
+//个单链表归并为一个按元素值递减次序排列的单链表，并要求利用原来两个单链表的结点存放归并后的单链表。
 void MergeList(LinkList &La, LinkList &Lb){
 	LNode *r, *pa = La->next, *pb = Lb->next; //r用来记录，防断链
 	La->next = NULL; //清空A链表，用作结果链表
@@ -354,6 +360,80 @@ void MergeList(LinkList &La, LinkList &Lb){
 	free(Lb);
 }
 
+//14
+//设A和B是两个单链表（带头结点），其中元素递增有序。设计一个算法从A和B中的公共元素产生单链表C，要求不破坏A、B的结点。
+LinkList GetCommon(LinkList A, LinkList B){
+	LinkList C = (LinkList)malloc(sizeof(LNode)); //创建新链表
+	C->next = NULL;
+	LNode *r = C; //r永远指向链尾
+
+	LNode *pa = A->next, *pb = B->next;
+	//一起遍历
+	while(pa && pb){
+		//谁小谁后移
+		if(pa->data < pb->data){
+			pa = pa->next;
+		}
+		else if(pb->data < pa->data){
+			pb = pb->next;
+		}
+		else{
+			//创建一个新结点
+			LNode *q = (LNode*)malloc(sizeof(LNode));
+			q->data = pa->data;
+			q->next = r->next;
+			r->next = q;
+			r = q; //r指向链尾
+			pa = pa->next;
+			pb = pb->next;
+		}
+	}
+	return C;
+}
+
+//15
+//已知两个链表 A 和 B 分别表示两个集合，其元素递增排列。编制函数，求 A 与 B 的交集，并存放于 A 链表中。
+LinkList Union(LinkList &A, LinkList B){
+	LNode *pa = A->next, *r = A, *pb = B->next, *u;
+	
+	while(pa && pb){
+		if(pa->data == pb->data){
+			//A链中的并集结点链接到结果链表
+			r->next = pa;
+			r = pa;
+			pa = pa->next;
+			//释放B链中的相同结点
+			u = pb;
+			pb = pb->next;
+			free(u);
+		}
+		else if(pa->data > pb->data){
+			u = pb;
+			pb = pb->next;
+			free(u); //释放B中结点
+		}
+		else{
+			u = pa;
+			pa = pa->next;
+			free(u); //释放A中结点
+		}
+	}
+	//若B已经遍历完, A没有遍历完,就要把A链表剩下还没有遍历的全删了
+	while(pa){
+		u = pa;
+		pa = pa->next;
+		free(pa);
+	}
+	while(pb){
+		u = pb;
+		pb = pb->next;
+		free(u);
+	}
+	r->next = NULL;
+	free(B);//释放B的头结点
+	return A;
+}
+
 int main() {
 	int x, n; //x是要删除的结点，n是链表的长度
 	struct LNode* first, * tail, * ans;
@@ -380,3 +460,4 @@ int main() {
 	//3
 	R_Print(first);
 }
+
